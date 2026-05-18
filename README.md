@@ -93,21 +93,6 @@ Critical reproducibility features:
 - pre-commit hooks prevent notebook output commits
 - CI re-runs `tests/` on every PR
 
-## Citation
-
-If you use this code in your research, please cite:
-
-```bibtex
-@article{kim202X_ungauged_flood_bhm,
-  title   = {Hierarchical Bayesian resolution of Simpson's paradox in
-             impervious-surface flood elasticity across 600+ US watersheds},
-  author  = {Kim, Kwan-Hyuck and Gleason, Colin J. and ...},
-  journal = {Water Resources Research},
-  year    = {202X},
-  doi     = {10.1029/...}
-}
-```
-
 ## License
 
 MIT License — see [LICENSE](LICENSE).
