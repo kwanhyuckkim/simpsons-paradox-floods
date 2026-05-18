@@ -127,9 +127,12 @@ select = [
 ]
 ignore = [
     "D100", "D104",   # missing module/package docstrings (ok for stubs)
+    "D105", "D107",   # missing __str__/__init__ docstrings (too pedantic)
     "D203", "D213",   # incompatible docstring style choices
     "N803", "N806",   # ML often uses X, Y, N capitalized
     "E501",           # line length handled by formatter
+    "RUF002",         # Unicode in docstrings (×, –, α, etc.) is intentional
+    "RUF003",         # same, for comments
 ]
 
 [tool.ruff.lint.pydocstyle]

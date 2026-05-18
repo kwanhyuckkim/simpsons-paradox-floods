@@ -22,7 +22,7 @@ import pandas as pd
 if TYPE_CHECKING:
     import arviz as az
 
-__all__ = ["BHMCoefficients", "extract_bhm_coefficients", "build_stacked_features", "fit_qrf_stack"]
+__all__ = ["BHMCoefficients", "build_stacked_features", "extract_bhm_coefficients", "fit_qrf_stack"]
 
 
 @dataclass

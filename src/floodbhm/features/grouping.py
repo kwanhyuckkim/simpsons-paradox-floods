@@ -39,9 +39,7 @@ def build_bhm_category(
         DataFrame with ``out_col`` added.
     """
     missing = [
-        c
-        for c in (natural_managed_col, huc_col, koppen_col, area_bin_col)
-        if c not in df.columns
+        c for c in (natural_managed_col, huc_col, koppen_col, area_bin_col) if c not in df.columns
     ]
     if missing:
         raise ValueError(f"build_bhm_category: missing columns {missing}")
@@ -97,9 +95,7 @@ def merge_small_groups_by_distance(
     if not small or not large:
         return df.copy()
 
-    centroids = df.groupby(group_col).agg(
-        lat=(lat_col, "mean"), lng=(lng_col, "mean")
-    )
+    centroids = df.groupby(group_col).agg(lat=(lat_col, "mean"), lng=(lng_col, "mean"))
     large_centroids = centroids.loc[large]
     tree = BallTree(np.radians(large_centroids[["lat", "lng"]].to_numpy()), metric="haversine")
 

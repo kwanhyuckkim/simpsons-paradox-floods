@@ -41,7 +41,7 @@ def load_nwis_daily(
             df, _ = nwis.get_record(
                 sites=gid, service="dv", start=start, end=end, parameterCd=parameter_code
             )
-        except Exception as e:  # noqa: BLE001
+        except Exception as e:
             print(f"NWIS fetch failed for {gid}: {e}")
             continue
         if df.empty:

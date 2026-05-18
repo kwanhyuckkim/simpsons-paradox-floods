@@ -22,7 +22,6 @@ import numpy as np
 
 if TYPE_CHECKING:
     import torch
-    from gpytorch.models import ExactGP
 
 __all__ = [
     "GPTrainingLog",
@@ -43,7 +42,6 @@ class GPTrainingLog:
 def _build_simple_gp(train_x: torch.Tensor, train_y: torch.Tensor):
     """Construct an ExactGP with ScaleKernel(RBFKernel(ard_num_dims=2))."""
     import gpytorch
-    import torch
     from gpytorch.models import ExactGP
 
     class SimpleSpatialGP(ExactGP):
@@ -125,7 +123,7 @@ def fit_spatial_gp(
     best_loss = float("inf")
     bad_steps = 0
 
-    for i in range(n_iter):
+    for _ in range(n_iter):
         optimizer.zero_grad()
         output = model(train_x)
         loss = -mll(output, train_y)

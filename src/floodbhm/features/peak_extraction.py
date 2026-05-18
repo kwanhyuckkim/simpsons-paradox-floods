@@ -21,7 +21,7 @@ from scipy.signal import find_peaks
 
 from floodbhm.features.time_of_concentration import time_of_concentration
 
-__all__ = ["extract_annual_peaks", "PeakExtractionResult"]
+__all__ = ["PeakExtractionResult", "extract_annual_peaks"]
 
 
 class PeakExtractionResult:
@@ -49,7 +49,9 @@ def _extract_one_gauge(args: tuple) -> tuple[pd.DataFrame, pd.DataFrame]:
     peak_idx, _ = find_peaks(q, height=height, distance=10)
 
     area_km2 = float(df_gauge["AREA"].iloc[0]) if "AREA" in df_gauge.columns else 100.0
-    slope = float(df_gauge["SLOPE_PCT"].iloc[0]) / 100.0 if "SLOPE_PCT" in df_gauge.columns else 0.01
+    slope = (
+        float(df_gauge["SLOPE_PCT"].iloc[0]) / 100.0 if "SLOPE_PCT" in df_gauge.columns else 0.01
+    )
     slope = max(slope, 1e-4)
     t_c_hours = time_of_concentration(area_km2=area_km2, slope=slope)
     t_c_days = max(1, int(np.ceil(t_c_hours / 24.0)))
@@ -62,7 +64,6 @@ def _extract_one_gauge(args: tuple) -> tuple[pd.DataFrame, pd.DataFrame]:
         if len(window_p) == 0:
             continue
         cum_5d = float(np.nansum(p[max(0, i - 4) : i + 1]))
-        peak_p_idx = start + int(np.nanargmax(window_p))
         peak_p_value = float(window_p.max()) if window_p.size else 0.0
 
         row = {

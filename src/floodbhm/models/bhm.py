@@ -30,7 +30,7 @@ if TYPE_CHECKING:
     import pandas as pd
 
 
-__all__ = ["BHMSpec", "default_priors", "build_bambi_model", "fit_with_diagnostics"]
+__all__ = ["BHMSpec", "build_bambi_model", "default_priors", "fit_with_diagnostics"]
 
 
 @dataclass
@@ -59,7 +59,7 @@ class BHMSpec:
             self.random_covariates = list(self.fixed_covariates)
 
 
-def default_priors(covariates: Sequence[str]) -> dict[str, "bmb.Prior"]:
+def default_priors(covariates: Sequence[str]) -> dict[str, bmb.Prior]:
     """Return weakly-informative priors suitable for standardized covariates.
 
     Each fixed covariate gets ``Normal(0, 2.5)``. The response noise gets
@@ -112,9 +112,7 @@ def build_bambi_model(
     import bambi as bmb
 
     required = (
-        {spec.target, spec.group}
-        | set(spec.fixed_covariates)
-        | set(spec.random_covariates or [])
+        {spec.target, spec.group} | set(spec.fixed_covariates) | set(spec.random_covariates or [])
     )
     missing = required - set(df.columns)
     if missing:

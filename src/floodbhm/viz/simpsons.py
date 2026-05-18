@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-from collections.abc import Sequence
-
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -37,7 +35,9 @@ def plot_simpsons_paradox(
         group_col: Column to stratify by (e.g., ``GAGE_ID``).
         min_n_per_group: Minimum group size to fit a slope.
         figsize: Matplotlib figure size.
-        xlabel, ylabel, title: Optional labels.
+        xlabel: Optional x-axis label.
+        ylabel: Optional y-axis label.
+        title: Optional figure title.
 
     Returns:
         ``(fig, stats)`` where ``stats`` includes the pooled slope and the
@@ -81,7 +81,9 @@ def plot_simpsons_paradox(
     if slopes:
         ax_b.hist(slopes, bins=30, color="steelblue", edgecolor="black", alpha=0.85)
         ax_b.axvline(0.0, color="black", ls="--", lw=1.0, label="zero")
-        ax_b.axvline(pooled_slope, color="red", ls="-", lw=1.5, label=f"pooled = {pooled_slope:.2f}")
+        ax_b.axvline(
+            pooled_slope, color="red", ls="-", lw=1.5, label=f"pooled = {pooled_slope:.2f}"
+        )
         ax_b.set_xlabel(f"Per-{group_col} log-log slope")
         ax_b.set_ylabel("Count")
         ax_b.set_title(f"Within-group slopes  ({pct_positive * 100:.0f}% positive)")

@@ -5,8 +5,8 @@ from floodbhm.features.peak_extraction import extract_annual_peaks
 from floodbhm.features.time_of_concentration import time_of_concentration
 
 __all__ = [
-    "extract_annual_peaks",
-    "time_of_concentration",
     "build_bhm_category",
+    "extract_annual_peaks",
     "merge_small_groups_by_distance",
+    "time_of_concentration",
 ]

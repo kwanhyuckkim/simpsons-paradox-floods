@@ -1,4 +1,4 @@
-"""Stability-weighted Recursive Feature Elimination using QRF importances.
+r"""Stability-weighted Recursive Feature Elimination using QRF importances.
 
 At each iteration we fit a Quantile Random Forest under ``GroupKFold(GAGE_ID)``,
 collect per-fold MDI importances, and drop the feature with the lowest
@@ -25,7 +25,6 @@ Differences vs the original ``rfe.py``:
 from __future__ import annotations
 
 import json
-from collections.abc import Sequence
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -104,7 +103,7 @@ def rfe_with_stability(
         fold_valid: list[dict] = []
         fold_importances: list[pd.Series] = []
 
-        for fold_id, (tr_idx, va_idx) in enumerate(gkf.split(X_curr, groups=groups), 1):
+        for tr_idx, va_idx in gkf.split(X_curr, groups=groups):
             X_tr = X_curr.iloc[tr_idx]
             X_va = X_curr.iloc[va_idx]
             y_tr = y.iloc[tr_idx]
@@ -159,7 +158,9 @@ def rfe_with_stability(
                 "mean_train_smape": mean_train_smape,
                 "removed_feature": feat_to_remove,
                 "removed_mean_importance": float(mean_imp[feat_to_remove]),
-                "removed_stability": float(std_imp[feat_to_remove] / max(mean_imp[feat_to_remove], 1e-10)),
+                "removed_stability": float(
+                    std_imp[feat_to_remove] / max(mean_imp[feat_to_remove], 1e-10)
+                ),
             }
         )
 

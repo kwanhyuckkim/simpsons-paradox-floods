@@ -30,10 +30,10 @@ if TYPE_CHECKING:
 
 __all__ = [
     "DiagnosticsReport",
-    "check_rhat",
-    "check_ess",
-    "check_divergences",
     "check_bfmi",
+    "check_divergences",
+    "check_ess",
+    "check_rhat",
     "report_full_diagnostics",
 ]
 
@@ -125,7 +125,7 @@ def check_bfmi(idata: az.InferenceData, threshold: float = 0.3) -> tuple[bool, f
 
     try:
         bfmi = az.bfmi(idata)
-    except Exception:  # noqa: BLE001 — arviz internal API may vary
+    except Exception:
         return True, float("nan")
     bfmi_min = float(np.min(bfmi))
     return bfmi_min >= threshold, bfmi_min
@@ -199,8 +199,6 @@ def report_full_diagnostics(
     )
 
     if not report.passed and raise_on_failure:
-        raise RuntimeError(
-            "Posterior diagnostics failed. See report for details:\n" + str(report)
-        )
+        raise RuntimeError("Posterior diagnostics failed. See report for details:\n" + str(report))
 
     return report

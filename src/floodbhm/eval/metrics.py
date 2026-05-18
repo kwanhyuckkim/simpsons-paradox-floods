@@ -19,13 +19,13 @@ import numpy as np
 from numpy.typing import ArrayLike
 
 __all__ = [
-    "smape",
     "adjusted_r_squared",
-    "nash_sutcliffe_efficiency",
     "kling_gupta_efficiency",
+    "nash_sutcliffe_efficiency",
+    "nmpiw_iqr",
     "pbias",
     "picp",
-    "nmpiw_iqr",
+    "smape",
     "winkler_interval_score",
 ]
 
@@ -79,9 +79,7 @@ def adjusted_r_squared(y_true: ArrayLike, y_pred: ArrayLike, n_features: int) ->
     y_pred_arr = _as_1d(y_pred)
     n_samples = y_true_arr.size
     if n_samples <= n_features + 1:
-        raise ValueError(
-            f"n_samples ({n_samples}) must exceed n_features+1 ({n_features + 1})"
-        )
+        raise ValueError(f"n_samples ({n_samples}) must exceed n_features+1 ({n_features + 1})")
     ss_res = float(np.sum((y_true_arr - y_pred_arr) ** 2))
     ss_tot = float(np.sum((y_true_arr - np.mean(y_true_arr)) ** 2))
     if ss_tot == 0.0:

@@ -11,7 +11,7 @@ def test_top_import():
 
 def test_eval_imports():
     from floodbhm import eval as fbev  # noqa: F401
-    from floodbhm.eval import metrics, ppc, posterior_diagnostics  # noqa: F401
+    from floodbhm.eval import metrics, posterior_diagnostics, ppc  # noqa: F401
 
 
 def test_features_imports():

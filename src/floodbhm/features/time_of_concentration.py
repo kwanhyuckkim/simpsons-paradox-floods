@@ -115,8 +115,7 @@ def time_of_concentration(
     import warnings
 
     warnings.warn(
-        f"area_km2={area_km2:.0f} exceeds Williams calibration range (≤6000 km²); "
-        "extrapolating",
+        f"area_km2={area_km2:.0f} exceeds Williams calibration range (≤6000 km²); extrapolating",
         stacklevel=2,
     )
     return _williams_t_c(L_km, area_km2, slope)
