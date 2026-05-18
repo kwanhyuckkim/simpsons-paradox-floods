@@ -69,20 +69,20 @@ We start with about thirty candidate covariates: meteorology (precipitation, tem
 
 Plain backward elimination by importance is unstable — a feature that scores high in one fold can score low in another, and the elimination order matters. We weight each feature's mean importance by its cross-fold stability:
 
-$$
-c_j = \mu_j \cdot \left(1 - \min(s_j, 0.3) / 0.3\right),
-\qquad s_j = \sigma_j / \mu_j
-$$
+```
+composite_score_j = mean_j × ( 1 − min(stability_j, 0.3) / 0.3 )
+stability_j       = std_j / mean_j
+```
 
-where $\mu_j$ and $\sigma_j$ are the mean and standard deviation of feature $j$'s MDI importance across ten `GroupKFold(GAGE_ID)` folds. The feature with the smallest composite score is dropped, and we repeat until one feature remains. The optimal feature count is the iteration with the highest validation adjusted $R^2$. Implementation: [`src/floodbhm/models/rfe.py`](src/floodbhm/models/rfe.py).
+Here `mean_j` and `std_j` are the mean and standard deviation of feature `j`'s MDI importance across ten `GroupKFold(GAGE_ID)` folds. The feature with the smallest composite score is dropped, and we repeat until one feature remains. The optimal feature count is the iteration with the highest validation adjusted R². Implementation: [`src/floodbhm/models/rfe.py`](src/floodbhm/models/rfe.py).
 
 ### Stage 2 — Bayesian Hierarchical Model
 
 We split each watershed into a four-tuple cluster label,
 
-$$
-\text{BHM\_Category} = (\text{Natural/Managed}) \times \text{HUC02} \times \text{Köppen} \times \text{area-bin},
-$$
+```
+BHM_Category = Natural_Managed × HUC02 × Köppen × area_bin
+```
 
 so that watersheds in the same cluster share basin type, hydrologic region, climate, and scale. Clusters with fewer than ten members are merged with the nearest larger cluster by haversine distance on gauge centroids ([`features/grouping.py`](src/floodbhm/features/grouping.py)), so that partial pooling has enough data per cell.
 
@@ -99,12 +99,12 @@ Each fixed covariate gets a population-level slope; the variables most relevant 
 
 | Parameter | Prior |
 |---|---|
-| Fixed-effect coefficients | $\mathrm{Normal}(0, 2.5)$ |
-| Response noise $\sigma$ | $\mathrm{HalfNormal}(1.0)$ — **positive support** |
-| Random-intercept scale | $\mathrm{HalfNormal}(1.0)$ |
-| Random-slope scale | $\mathrm{HalfNormal}(1.0)$ |
+| Fixed-effect coefficients | `Normal(0, 2.5)` |
+| Response noise σ | `HalfNormal(1.0)` — **positive support** |
+| Random-intercept scale | `HalfNormal(1.0)` |
+| Random-slope scale | `HalfNormal(1.0)` |
 
-The HalfNormal on $\sigma$ is important and easy to get wrong; a Normal prior on a scale parameter places half its mass on negative numbers, which silently breaks the model. Implementation: [`models/bhm.py::default_priors`](src/floodbhm/models/bhm.py).
+The HalfNormal on σ is important and easy to get wrong: a Normal prior on a scale parameter places half its mass on negative numbers, which silently breaks the model. Implementation: [`models/bhm.py::default_priors`](src/floodbhm/models/bhm.py).
 
 **Sampler**: blackjax NUTS via Bayeux, four chains, two thousand draws each, `target_accept = 0.99` to keep step sizes small enough for the hierarchical funnel. We rely on Bambi's non-centered parameterization to keep the geometry well-behaved.
 
@@ -121,7 +121,7 @@ The result is a small set of geographically smoothed correction features rather 
 
 ### Stage 4 — Quantile Random Forest stacking
 
-The BHM gives us posterior predictive means, but downstream users care about prediction intervals. We materialize the posterior into per-cluster slope features (`Beta_<cov>` columns, one per group × covariate) and concatenate them with the GP residual features and the original RFE-selected covariates. The full feature matrix then goes into a `RandomForestQuantileRegressor` that produces quantile estimates at $\{0.05, 0.25, 0.5, 0.75, 0.95\}$. Implementation: [`models/stacking.py`](src/floodbhm/models/stacking.py).
+The BHM gives us posterior predictive means, but downstream users care about prediction intervals. We materialize the posterior into per-cluster slope features (`Beta_<cov>` columns, one per group × covariate) and concatenate them with the GP residual features and the original RFE-selected covariates. The full feature matrix then goes into a `RandomForestQuantileRegressor` that produces quantile estimates at `[0.05, 0.25, 0.5, 0.75, 0.95]`. Implementation: [`models/stacking.py`](src/floodbhm/models/stacking.py).
 
 The reason for this final layer, rather than reporting BHM posterior predictive quantiles directly, is calibration. The BHM's likelihood is Gaussian on a transformed scale and tends to be over-confident on extreme events; the QRF makes no distributional assumption and adapts the interval width to local data density.
 
@@ -132,17 +132,17 @@ Two layers of evaluation, in this order:
 1. **Held-out gauges by stratified area split.** We bin gauges into ten area quantiles (`pd.qcut`), split 80 / 20 within each bin on unique area values, and use the same partition throughout the pipeline. Cross-validation inside the training set is `GroupKFold(groups=GAGE_ID)` so that no gauge contributes to both a training and a validation fold.
 2. **Leave-one-cohort-out (LOCO).** For the Bayesian side, holding out gauges does not test generalization to truly unfamiliar regimes if other gauges in the same `BHM_Category` are in the training set. We additionally hold out *entire clusters* in turn and measure how predictions degrade.
 
-Metrics: SMAPE, adjusted $R^2$, Nash-Sutcliffe efficiency, Kling-Gupta efficiency, percent bias for point estimates; PICP, NMPIW (IQR-normalized), Winkler interval score for prediction intervals. Implementations and unit tests: [`eval/metrics.py`](src/floodbhm/eval/metrics.py) and [`tests/test_metrics.py`](tests/test_metrics.py).
+Metrics: SMAPE, adjusted R², Nash-Sutcliffe efficiency, Kling-Gupta efficiency, percent bias for point estimates; PICP, NMPIW (IQR-normalized), Winkler interval score for prediction intervals. Implementations and unit tests: [`eval/metrics.py`](src/floodbhm/eval/metrics.py) and [`tests/test_metrics.py`](tests/test_metrics.py).
 
 ### Diagnostic standard
 
 Every BHM fit is required to pass a fixed diagnostic checklist before any downstream analysis is computed:
 
-- $\hat{R} < 1.01$ for every monitored parameter,
-- $\mathrm{ESS}_{\text{bulk}} > 400$ and $\mathrm{ESS}_{\text{tail}} > 400$,
-- Zero divergent transitions,
-- $\mathrm{BFMI} > 0.3$ on every chain,
-- Posterior predictive p-value on the discrepancy statistic $T(y) = \mathrm{Var}(y)$ in a plausible range.
+- `R-hat < 1.01` for every monitored parameter
+- `ESS_bulk > 400` and `ESS_tail > 400`
+- Zero divergent transitions
+- `BFMI > 0.3` on every chain
+- Posterior predictive p-value on the discrepancy statistic `T(y) = Var(y)` in a plausible range
 
 The check is wrapped in a single `DiagnosticsReport` object; CI flags any regression. Implementation: [`eval/posterior_diagnostics.py`](src/floodbhm/eval/posterior_diagnostics.py).
 
