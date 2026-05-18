@@ -1,0 +1,41 @@
+# 4-tuple BHM_Category grouping: Natural_Managed × HUC02 × Köppen × area_bin
+target: streamflow
+family: gaussian
+
+min_group_count: 10
+max_merge_radius_km: 150.0
+
+covariates:
+  - dayl_mean
+  - tmax_mean
+  - tmin_mean
+  - prcp_mean
+  - srad_mean
+  - vp_mean
+  - swe_mean
+  - amc
+  - cum_ppt
+  - isa_mean
+  - mean_ai
+  - AREA
+  - BAS_COMPACTNESS
+  - STREAMS_KM_SQ_KM
+  - BFI_AVE
+  - SLOPE_PCT
+  - PERMAVE
+  - ROCKDEPAVE
+  - CLAYAVE
+  - SANDAVE
+  - LAT_GAGE
+  - LNG_GAGE
+  - NID_Storage
+  - Max_Discharge
+  - T_c
+
+random_covariates:
+  # Subset that gets group-varying slopes (start small to ease convergence)
+  - prcp_mean
+  - isa_mean
+  - amc
+  - cum_ppt
+  - mean_ai

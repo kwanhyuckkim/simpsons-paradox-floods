@@ -1,0 +1,31 @@
+# Root config for `python scripts/run_gp.py`
+defaults:
+  - data: conus_unregulated
+  - _self_
+
+coords:
+  lat: LAT_GAGE
+  lng: LNG_GAGE
+
+gp:
+  variables:
+    - prcp_mean
+    - tmax_mean
+    - tmin_mean
+    - srad_mean
+    - vp_mean
+    - swe_mean
+    - amc
+    - cum_ppt
+    - isa_mean
+    - mean_ai
+  n_iter: 200
+  learning_rate: 0.01
+  random_seed: 42
+
+output:
+  dir: results/gp
+
+hydra:
+  run:
+    dir: outputs/gp/${now:%Y-%m-%d_%H-%M-%S}

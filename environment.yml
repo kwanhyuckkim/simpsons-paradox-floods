@@ -1,0 +1,50 @@
+name: floodbhm
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pip
+
+  # Geospatial (conda is more reliable than pip for these)
+  - geopandas>=0.14
+  - rasterio>=1.3
+  - shapely>=2.0
+  - pyproj>=3.6
+  - cartopy>=0.22
+
+  # Scientific stack
+  - numpy>=1.26
+  - pandas>=2.1
+  - scipy>=1.11
+  - scikit-learn>=1.4
+  - pyarrow>=14.0
+  - xarray>=2024.1
+  - netcdf4
+
+  # ML / Bayesian
+  - matplotlib>=3.8
+  - seaborn>=0.13
+
+  # Dev tools (light, full set via pip)
+  - jupyter
+  - ipykernel
+
+  - pip:
+      # Bayesian — pip-only or latest versions
+      - bambi>=0.13
+      - pymc>=5.10
+      - arviz>=0.17
+      - blackjax>=1.2
+      - bayeux-ml>=0.1.10
+      # GP
+      - gpytorch>=1.11
+      - torch>=2.1
+      # ML
+      - quantile-forest>=1.3
+      # USGS
+      - dataretrieval>=1.0
+      # Config
+      - hydra-core>=1.3
+      - omegaconf>=2.3
+      # Install local package in editable mode
+      - -e .

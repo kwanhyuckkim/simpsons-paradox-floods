@@ -1,0 +1,51 @@
+# Root config for `python scripts/run_rfe.py`
+defaults:
+  - data: conus_unregulated
+  - _self_
+
+target: streamflow
+
+features:
+  candidates:
+    - dayl_mean
+    - tmax_mean
+    - tmin_mean
+    - prcp_mean
+    - srad_mean
+    - vp_mean
+    - swe_mean
+    - isa_mean
+    - AREA
+    - BAS_COMPACTNESS
+    - STREAMS_KM_SQ_KM
+    - MAINSTEM_SINUOUSITY
+    - BFI_AVE
+    - ELEV_MEAN_M_BASIN
+    - SLOPE_PCT
+    - LAT_GAGE
+    - LNG_GAGE
+    - mean_ai
+    - PERMAVE
+    - ROCKDEPAVE
+    - CLAYAVE
+    - SILTAVE
+    - SANDAVE
+    - OMAVE
+    - NID_Storage
+    - Max_Discharge
+    - amc
+    - T_c
+    - cum_ppt
+
+model:
+  n_splits: 10
+  n_estimators: 1000
+  stability_threshold: 0.3
+  random_state: 42
+
+output:
+  dir: results/rfe
+
+hydra:
+  run:
+    dir: outputs/rfe/${now:%Y-%m-%d_%H-%M-%S}

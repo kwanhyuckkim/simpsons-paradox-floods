@@ -1,0 +1,21 @@
+# Root config for `python scripts/run_bhm.py`
+defaults:
+  - data: conus_unregulated
+  - model: bhm_4tuple
+  - prior: weak
+  - sampler: nuts_blackjax
+  - _self_
+
+diagnostics:
+  raise_on_failure: false
+  rhat_threshold: 1.01
+  ess_bulk_threshold: 400
+  ess_tail_threshold: 400
+  bfmi_threshold: 0.3
+
+output:
+  path: results/posteriors/bhm_${now:%Y%m%d_%H%M%S}.nc
+
+hydra:
+  run:
+    dir: outputs/${now:%Y-%m-%d}/${now:%H-%M-%S}

@@ -1,0 +1,31 @@
+# Simpler 2-tuple grouping: Natural_Managed × HUC02 only.
+# Use this when 4-tuple does not converge; sacrifices some climate
+# heterogeneity for stronger pooling.
+target: streamflow
+family: gaussian
+
+min_group_count: 10
+max_merge_radius_km: 200.0
+
+covariates:
+  - dayl_mean
+  - tmax_mean
+  - tmin_mean
+  - prcp_mean
+  - srad_mean
+  - swe_mean
+  - amc
+  - cum_ppt
+  - isa_mean
+  - mean_ai
+  - AREA
+  - BFI_AVE
+  - SLOPE_PCT
+  - LAT_GAGE
+  - LNG_GAGE
+
+random_covariates:
+  - prcp_mean
+  - isa_mean
+  - amc
+  - cum_ppt

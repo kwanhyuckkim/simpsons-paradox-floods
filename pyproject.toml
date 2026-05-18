@@ -1,0 +1,175 @@
+[build-system]
+requires = ["hatchling>=1.21", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[project]
+name = "floodbhm"
+dynamic = ["version"]
+description = "Hierarchical Bayesian + GP + QRF stacking for ungauged peak streamflow prediction"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { file = "LICENSE" }
+authors = [
+    { name = "Kwan-Hyuck Kim", email = "kwanhyuckkim@umass.edu" },
+]
+keywords = [
+    "bayesian-hierarchical-model",
+    "gaussian-process",
+    "quantile-regression",
+    "hydrology",
+    "ungauged-basin",
+    "flood-prediction",
+    "simpsons-paradox",
+    "mcmc",
+    "blackjax",
+    "bambi",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Hydrology",
+    "Topic :: Scientific/Engineering :: Atmospheric Science",
+]
+
+dependencies = [
+    # Bayesian modeling
+    "bambi>=0.13",
+    "pymc>=5.10",
+    "arviz>=0.17",
+    "blackjax>=1.2",
+    "bayeux-ml>=0.1.10",
+    # Gaussian Process
+    "gpytorch>=1.11",
+    "torch>=2.1",
+    # ML
+    "quantile-forest>=1.3",
+    "scikit-learn>=1.4",
+    # Data
+    "numpy>=1.26",
+    "pandas>=2.1",
+    "pyarrow>=14.0",
+    "xarray>=2024.1",
+    # Geospatial
+    "geopandas>=0.14",
+    "rasterio>=1.3",
+    "shapely>=2.0",
+    "pyproj>=3.6",
+    "cartopy>=0.22",
+    # USGS / hydrology
+    "dataretrieval>=1.0",
+    # Signal processing
+    "scipy>=1.11",
+    # Visualization
+    "matplotlib>=3.8",
+    "seaborn>=0.13",
+    # Config management
+    "hydra-core>=1.3",
+    "omegaconf>=2.3",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4",
+    "pytest-cov>=4.1",
+    "ruff>=0.5",
+    "mypy>=1.8",
+    "pre-commit>=3.6",
+    "nbstripout>=0.7",
+    "ipykernel>=6.28",
+    "jupyter>=1.0",
+]
+docs = [
+    "mkdocs>=1.5",
+    "mkdocs-material>=9.5",
+    "mkdocstrings[python]>=0.24",
+    "mkdocs-jupyter>=0.24",
+]
+
+[project.urls]
+Homepage = "https://github.com/kwanhyuckkim/simpsons-paradox-floods"
+Documentation = "https://kwanhyuckkim.github.io/simpsons-paradox-floods/"
+Repository = "https://github.com/kwanhyuckkim/simpsons-paradox-floods"
+Issues = "https://github.com/kwanhyuckkim/simpsons-paradox-floods/issues"
+
+[project.scripts]
+floodbhm-rfe = "floodbhm.cli:run_rfe"
+floodbhm-bhm = "floodbhm.cli:run_bhm"
+floodbhm-gp = "floodbhm.cli:run_gp"
+floodbhm-stack = "floodbhm.cli:run_stack"
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/floodbhm"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests", "scripts"]
+exclude = ["notebooks", "docs", ".venv"]
+
+[tool.ruff.lint]
+select = [
+    "E", "W",   # pycodestyle
+    "F",        # pyflakes
+    "I",        # isort
+    "B",        # flake8-bugbear
+    "C4",       # flake8-comprehensions
+    "UP",       # pyupgrade
+    "RUF",      # ruff-specific
+    "N",        # pep8-naming
+    "D",        # pydocstyle
+]
+ignore = [
+    "D100", "D104",   # missing module/package docstrings (ok for stubs)
+    "D203", "D213",   # incompatible docstring style choices
+    "N803", "N806",   # ML often uses X, Y, N capitalized
+    "E501",           # line length handled by formatter
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["D"]
+"scripts/**" = ["D"]
+"examples/**" = ["D"]
+
+[tool.mypy]
+python_version = "3.11"
+warn_redundant_casts = true
+warn_unused_ignores = true
+strict_optional = true
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+ignore_missing_imports = true
+exclude = ["notebooks/", "docs/"]
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+testpaths = ["tests"]
+addopts = [
+    "-v",
+    "--strict-markers",
+    "--strict-config",
+    "--tb=short",
+]
+markers = [
+    "slow: marks tests as slow",
+    "integration: integration tests requiring data",
+    "gpu: tests requiring GPU",
+]
+
+[tool.coverage.run]
+source = ["src/floodbhm"]
+omit = ["*/tests/*", "*/__init__.py"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = false
+precision = 1

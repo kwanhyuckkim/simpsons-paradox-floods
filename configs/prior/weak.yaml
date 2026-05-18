@@ -1,0 +1,18 @@
+# Weakly-informative priors for standardized covariates.
+# (Implementation: src/floodbhm/models/bhm.py::default_priors)
+fixed_effect:
+  dist: Normal
+  mu: 0.0
+  sigma: 2.5
+
+response_sigma:
+  dist: HalfNormal
+  sigma: 1.0
+
+random_intercept_sigma:
+  dist: HalfNormal
+  sigma: 1.0
+
+random_slope_sigma:
+  dist: HalfNormal
+  sigma: 1.0

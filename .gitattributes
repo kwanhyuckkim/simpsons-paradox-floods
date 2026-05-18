@@ -1,0 +1,18 @@
+# Auto-detect text files and perform LF normalization
+* text=auto eol=lf
+
+# Notebooks: handle as JSON with nbstripout
+*.ipynb diff=jupyternotebook
+*.ipynb merge=jupyternotebook
+*.ipynb -text
+
+# Treat binary
+*.png binary
+*.jpg binary
+*.pdf binary
+*.svg text
+*.parquet binary
+*.nc binary
+*.pkl binary
+*.joblib binary
+*.pth binary

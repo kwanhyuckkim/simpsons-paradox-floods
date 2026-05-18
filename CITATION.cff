@@ -1,0 +1,45 @@
+cff-version: 1.2.0
+title: >-
+  Hierarchical Bayesian Resolution of Simpson's Paradox in
+  Impervious-Surface Flood Elasticity
+message: >-
+  If you use this software in your research, please cite both the
+  software and the accompanying paper (DOI TBD).
+type: software
+authors:
+  - given-names: Kwan-Hyuck
+    family-names: Kim
+    email: kwanhyuckkim@umass.edu
+    affiliation: >-
+      Department of Civil and Environmental Engineering,
+      University of Massachusetts Amherst
+    orcid: 'https://orcid.org/0000-0000-0000-0000'
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.XXXXXXX
+    description: Zenodo archive of this release (placeholder)
+repository-code: >-
+  https://github.com/kwanhyuckkim/simpsons-paradox-floods
+url: 'https://kwanhyuckkim.github.io/simpsons-paradox-floods/'
+keywords:
+  - bayesian-hierarchical-model
+  - gaussian-process
+  - quantile-regression
+  - hydrology
+  - ungauged-basin
+  - simpsons-paradox
+  - flood-prediction
+license: MIT
+preferred-citation:
+  type: article
+  authors:
+    - given-names: Kwan-Hyuck
+      family-names: Kim
+    - given-names: Colin J.
+      family-names: Gleason
+  title: >-
+    Hierarchical Bayesian resolution of Simpson's paradox in
+    impervious-surface flood elasticity across 600+ US watersheds
+  journal: TBD
+  year: 2026
+  doi: TBD

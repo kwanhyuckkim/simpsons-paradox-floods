@@ -1,0 +1,86 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Distribution / packaging
+.Python
+build/
+dist/
+downloads/
+eggs/
+.eggs/
+*.egg-info/
+*.egg
+MANIFEST
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Editor
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Testing / linting
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+coverage.xml
+.tox/
+
+# Hydra
+outputs/
+multirun/
+
+# Documentation build
+docs/_build/
+site/
+
+# Project data and artifacts (NOT in git — see data/README.md for Zenodo links)
+data/raw/
+data/processed/
+data/external/
+results/posteriors/
+results/figures/
+results/models/
+results/cache/
+*.parquet
+*.nc
+*.pkl
+*.joblib
+*.pth
+*.csv
+
+# Allow small example data
+!examples/data/*.parquet
+!docs/figures/*.png
+!docs/figures/*.svg
+!docs/figures/*.pdf
+
+# Environment files with secrets
+.env
+.env.local
+.envrc
+
+# uv lockfile (commit, but not pyproject.toml egg-info)
+# uv.lock  # actually commit this!
+
+# Editor and IDE backups
+*.bak
+*.tmp

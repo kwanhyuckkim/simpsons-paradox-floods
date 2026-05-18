@@ -1,0 +1,8 @@
+draws: 2000
+tune: 1000
+chains: 4
+cores: 4
+target_accept: 0.99
+nuts_sampler: blackjax
+backend: bayeux
+random_seed: 100

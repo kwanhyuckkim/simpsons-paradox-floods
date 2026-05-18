@@ -1,0 +1,20 @@
+# Root config for `python scripts/run_qrf_stack.py`
+defaults:
+  - data: conus_unregulated
+  - model: bhm_4tuple
+  - _self_
+
+bhm:
+  posterior_path: results/posteriors/bhm_latest.nc
+
+model:
+  quantiles: [0.05, 0.25, 0.5, 0.75, 0.95]
+  n_estimators: 1000
+  random_state: 42
+
+output:
+  dir: results/stack
+
+hydra:
+  run:
+    dir: outputs/stack/${now:%Y-%m-%d_%H-%M-%S}

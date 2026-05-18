@@ -1,0 +1,79 @@
+site_name: Simpson's Paradox Floods
+site_description: >-
+  Hierarchical Bayesian + GP + QRF stacking pipeline for ungauged peak
+  streamflow prediction with Simpson's paradox resolution.
+site_url: https://kwanhyuckkim.github.io/simpsons-paradox-floods/
+repo_url: https://github.com/kwanhyuckkim/simpsons-paradox-floods
+repo_name: kwanhyuckkim/simpsons-paradox-floods
+edit_uri: edit/main/docs/
+copyright: Copyright &copy; 2026 Kwan-Hyuck Kim
+
+theme:
+  name: material
+  language: en
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - navigation.tracking
+    - content.code.copy
+    - content.code.annotate
+    - search.highlight
+    - search.suggest
+    - toc.follow
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            docstring_style: google
+            show_source: true
+            show_root_heading: true
+            heading_level: 2
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.arithmatex:
+      generic: true
+
+extra_javascript:
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+nav:
+  - Home: index.md
+  - Methodology: methodology.md
+  - Data: data.md
+  - Reproduce: reproduce.md
+  - API Reference: api.md

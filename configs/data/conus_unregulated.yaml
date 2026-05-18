@@ -1,0 +1,6 @@
+# Data block: unregulated CONUS basins from the cached Zenodo parquet.
+
+path: data/peaks_v2_category_ver2.parquet
+split_col: split
+group_col: GAGE_ID
+target: streamflow
