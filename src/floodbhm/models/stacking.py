@@ -14,7 +14,7 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 from dataclasses import dataclass
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
 import pandas as pd
@@ -109,7 +109,7 @@ def fit_qrf_stack(
     n_estimators: int = 1000,
     min_samples_leaf: int = 1,
     random_state: int = 42,
-):
+) -> Any:
     """Train the final stacking QRF.
 
     Args:
@@ -121,7 +121,8 @@ def fit_qrf_stack(
         random_state: Seed.
 
     Returns:
-        Trained :class:`RandomForestQuantileRegressor` (with ``quantiles_`` attached).
+        A trained ``RandomForestQuantileRegressor`` with the ``quantiles_``
+        attribute attached for downstream prediction at the requested levels.
     """
     from quantile_forest import RandomForestQuantileRegressor
 
