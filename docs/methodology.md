@@ -69,7 +69,7 @@ Every BHM fit reports:
 - BFMI > 0.3 per chain
 - Posterior predictive check via `az.plot_ppc` with Bayesian p-value
 
-See [`src/floodbhm/eval/posterior_diagnostics.py`](api.md#posterior_diagnostics).
+See `src/floodbhm/eval/posterior_diagnostics.py`.
 
 ## Stage 3 — Gaussian Process residuals
 
