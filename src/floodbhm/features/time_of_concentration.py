@@ -111,7 +111,7 @@ def time_of_concentration(
         return _williams_t_c(L_km, area_km2, slope)
 
     # Very large basins outside the calibrated range; extrapolate with Williams
-    # but flag the user via a warning.
+    # but warn about it.
     import warnings
 
     warnings.warn(
