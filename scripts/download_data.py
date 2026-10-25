@@ -11,7 +11,7 @@ import sys
 import urllib.request
 from pathlib import Path
 
-# Placeholder — populate with the actual Zenodo direct-download URLs once the
+# Placeholder: populate with the actual Zenodo direct-download URLs once the
 # DOI is minted. Each entry: (filename, url, sha256).
 ZENODO_FILES: list[tuple[str, str, str]] = [
     # ("peaks_v2_category_ver2.parquet",

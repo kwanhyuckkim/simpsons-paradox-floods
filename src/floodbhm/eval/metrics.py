@@ -2,15 +2,15 @@
 
 All metrics return scalar floats. Input arrays must be 1-D numpy arrays or
 ``pandas.Series`` of identical length. ``NaN`` values are not handled
-implicitly — pass cleaned data.
+implicitly, so pass cleaned data.
 
 Reference for hydrologic metrics: Gupta et al. (2009),
 "Decomposition of the mean squared error and NSE performance criteria",
-*J. Hydrol.* 377, 80–91.
+*J. Hydrol.* 377, 80-91.
 
 Reference for interval score: Gneiting & Raftery (2007),
 "Strictly proper scoring rules, prediction, and estimation",
-*J. Am. Stat. Assoc.* 102, 359–378.
+*J. Am. Stat. Assoc.* 102, 359-378.
 """
 
 from __future__ import annotations

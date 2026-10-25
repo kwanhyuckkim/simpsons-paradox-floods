@@ -1,6 +1,6 @@
 """Hierarchical grouping for BHM_Category construction.
 
-Builds the 4-tuple grouping ``Natural_Managed × HUC02 × Köppen × area_bin`` and
+Builds the 4-tuple grouping ``Natural_Managed x HUC02 x Köppen x area_bin`` and
 merges small groups (fewer than ``min_count`` members) with the nearest larger
 group by haversine distance over gauge centroids.
 """

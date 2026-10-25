@@ -1,21 +1,19 @@
-"""Bayesian hierarchical model construction with Bambi.
+"""Bayesian hierarchical model built with Bambi.
 
-This module fixes the four prior/scale issues identified during the T02 audit:
+Prior and scale choices:
 
-1. **Sigma prior is HalfNormal**, not Normal — scale parameters require
-   positive support. Original code used ``Normal(0, 10**4)``, which is wrong.
-2. **Priors are weakly informative, not vague**: ``Normal(0, 2.5)`` on
-   standardized covariates instead of ``Normal(0, 10**4)``. The vague prior
-   was both untestable and unhelpful for convergence.
-3. **The priors dictionary is explicitly passed to** ``bmb.Model(..., priors=priors)``,
-   not commented out (the original code had ``#, priors=priors`` which silently
-   dropped them).
-4. **Random-effect variance has its own HalfNormal hyperprior**, enabling
+1. The sigma prior is HalfNormal, since a scale parameter has to be positive.
+2. Coefficient priors are weakly informative, Normal(0, 2.5) on standardized
+   covariates. A vague prior like Normal(0, 10**4) is hard to check and does not
+   help convergence.
+3. The priors dict is passed to bmb.Model(..., priors=priors) explicitly.
+   Commenting that argument out drops the priors silently.
+4. The random-effect variance has its own HalfNormal hyperprior, which allows a
    non-centered parameterization.
 
 Reference:
     Gabry et al. (2019), "Visualization in Bayesian workflow",
-    *J. R. Stat. Soc. A* 182, 389–402.
+    J. R. Stat. Soc. A 182, 389-402.
 """
 
 from __future__ import annotations
@@ -63,8 +61,7 @@ def default_priors(covariates: Sequence[str]) -> dict[str, bmb.Prior]:
     """Return weakly-informative priors suitable for standardized covariates.
 
     Each fixed covariate gets ``Normal(0, 2.5)``. The response noise gets
-    ``HalfNormal(1.0)`` (positive support; the original code used Normal which
-    permitted negative scale). Random-effect variances use ``HalfNormal(1.0)``
+    ``HalfNormal(1.0)`` (positive support). Random-effect variances use ``HalfNormal(1.0)``
     too.
 
     Args:
@@ -78,7 +75,7 @@ def default_priors(covariates: Sequence[str]) -> dict[str, bmb.Prior]:
     priors: dict[str, bmb.Prior] = {
         cov: bmb.Prior("Normal", mu=0.0, sigma=2.5) for cov in covariates
     }
-    # Response observation noise — MUST be positive
+    # Response observation noise: MUST be positive
     priors["sigma"] = bmb.Prior("HalfNormal", sigma=1.0)
     # Intercept on the same scale as covariates after standardization
     priors["Intercept"] = bmb.Prior("Normal", mu=0.0, sigma=2.5)

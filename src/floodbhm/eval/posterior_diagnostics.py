@@ -1,21 +1,19 @@
-"""Posterior convergence diagnostics for Bambi / PyMC / blackjax fits.
+"""Convergence checks for Bambi / PyMC / blackjax fits.
 
-This module enforces the diagnostic standard required for publishable
-Bayesian inference:
+The checks:
 
-- R-hat (potential scale reduction) < 1.01 for every parameter.
-- ESS_bulk and ESS_tail above a minimum (default 400).
-- Zero divergent transitions.
-- BFMI (Bayesian fraction of missing information) above a threshold per chain.
-- Posterior predictive p-value in a plausible range.
+- R-hat < 1.01 for every parameter
+- ESS_bulk and ESS_tail above a minimum (default 400)
+- no divergent transitions
+- BFMI above a threshold for each chain
+- posterior predictive p-value in a plausible range
 
-A single call to :func:`report_full_diagnostics` runs all checks and returns a
-``DiagnosticsReport`` with pass/fail flags so the caller can fail loudly during
-CI or in a notebook.
+report_full_diagnostics runs all of them and returns a DiagnosticsReport with
+pass/fail flags, so a bad fit fails loudly in CI or in a notebook.
 
-The diagnostics intentionally do NOT silently fix anything — failures raise or
-return ``passed = False`` so the user reruns the chain with adjustments
-(``target_accept``, non-centered parameterization, longer warmup, etc.).
+Nothing gets fixed silently. A failed check raises or returns passed = False, and
+then you rerun the chain with other settings (target_accept, non-centered
+parameterization, longer warmup, etc.).
 """
 
 from __future__ import annotations
@@ -110,7 +108,7 @@ def check_divergences(idata: az.InferenceData) -> tuple[bool, int]:
     try:
         diverging = idata.sample_stats["diverging"]
     except (AttributeError, KeyError):
-        return True, 0  # sampler didn't expose diverging — skip
+        return True, 0  # sampler didn't expose diverging: skip
     n_div = int(diverging.values.sum())
     return n_div == 0, n_div
 
@@ -118,7 +116,7 @@ def check_divergences(idata: az.InferenceData) -> tuple[bool, int]:
 def check_bfmi(idata: az.InferenceData, threshold: float = 0.3) -> tuple[bool, float]:
     """Return ``(passed, bfmi_min)``.
 
-    BFMI < 0.3 indicates pathological energy distribution per chain — usually a
+    BFMI < 0.3 indicates pathological energy distribution per chain, usually a
     funnel issue requiring non-centered parameterization.
     """
     import arviz as az

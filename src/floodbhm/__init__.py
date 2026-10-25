@@ -1,7 +1,6 @@
-"""floodbhm — Hierarchical Bayesian + GP + QRF stacking for ungauged peak streamflow.
+"""floodbhm: hierarchical Bayesian + GP + QRF stacking for peak streamflow at ungauged sites.
 
-Public entry points are exposed under :mod:`floodbhm.models`, :mod:`floodbhm.features`,
-and :mod:`floodbhm.eval`. See `docs/methodology.md` for the full pipeline description.
+The main pieces are in floodbhm.models, floodbhm.features and floodbhm.eval.
 """
 
 from __future__ import annotations

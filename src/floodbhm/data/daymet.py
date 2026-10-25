@@ -1,9 +1,8 @@
 """Daymet and PRISM loaders.
 
-Standard reproduction pulls pre-computed zonal-statistics parquet files from
-Zenodo (see :doc:`/data`). Re-running the zonal-stats step on raw rasters
-is supported via the ``exactextract`` CLI; ``apply_exactextract`` here is a
-thin wrapper.
+I normally start from zonal-statistics parquet files computed ahead of time (they
+will go on Zenodo). To redo the zonal stats from the raw rasters, use the
+exactextract CLI; apply_exactextract is a small wrapper around it.
 """
 
 from __future__ import annotations

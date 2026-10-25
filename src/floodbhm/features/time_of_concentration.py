@@ -4,13 +4,13 @@ Time of concentration (T_c) is the travel time of a water particle from the
 hydraulically most distant point in a basin to the outlet. We use four
 empirical formulas, switched by basin area class:
 
-- **Kirpich (1940)** for basins ≤ 50 km² (small upland catchments).
-- **SCS TR-55 (1986)** for basins 50–800 km² (medium agricultural).
-- **Ventura** for basins 800–1000 km² (large rural).
-- **Williams (1922)** for basins 1000–6000 km² (very large).
+- Kirpich (1940) for basins ≤ 50 km² (small upland catchments).
+- SCS TR-55 (1986) for basins 50-800 km² (medium agricultural).
+- Ventura for basins 800-1000 km² (large rural).
+- Williams (1922) for basins 1000-6000 km² (very large).
 
 Longest channel length uses the modified Hack's law of Sassolas-Serrayet et al.
-(2018), *Geomorphology* 303, 226–238.
+(2018), *Geomorphology* 303, 226-238.
 
 References:
     Kirpich, Z.P., 1940. *Civil Eng.* 10, 362.
@@ -46,8 +46,8 @@ def _kirpich_t_c(L_km: float, slope: float) -> float:
     Returns:
         T_c in hours.
     """
-    L_ft = L_km * 3280.84  # km → ft
-    return 0.0078 * L_ft**0.77 * slope**-0.385 / 60.0  # minutes → hours
+    L_ft = L_km * 3280.84  # km -> ft
+    return 0.0078 * L_ft**0.77 * slope**-0.385 / 60.0  # minutes -> hours
 
 
 def _scs_tr55_t_c(L_km: float, slope: float, cn: float = 75.0) -> float:
@@ -55,7 +55,7 @@ def _scs_tr55_t_c(L_km: float, slope: float, cn: float = 75.0) -> float:
     L_ft = L_km * 3280.84
     s = 1000.0 / cn - 10.0
     lag = L_ft**0.8 * (s + 1.0) ** 0.7 / (1900.0 * (slope * 100.0) ** 0.5)
-    return lag / 0.6 / 60.0  # lag = 0.6 * Tc, then minutes → hours
+    return lag / 0.6 / 60.0  # lag = 0.6 * Tc, then minutes -> hours
 
 
 def _ventura_t_c(area_km2: float, slope: float) -> float:
@@ -110,7 +110,7 @@ def time_of_concentration(
     if area_km2 <= 6000.0:
         return _williams_t_c(L_km, area_km2, slope)
 
-    # Very large basins outside the calibrated range — extrapolate with Williams
+    # Very large basins outside the calibrated range; extrapolate with Williams
     # but flag the user via a warning.
     import warnings
 

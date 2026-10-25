@@ -11,7 +11,7 @@ import pytest
 def synthetic_peaks() -> pd.DataFrame:
     """A small synthetic peaks DataFrame for unit-test use.
 
-    100 fake gauges × 30 fake years with realistic-ish ranges.
+    100 fake gauges x 30 fake years with realistic-ish ranges.
     """
     rng = np.random.default_rng(seed=42)
     n_gauges = 100

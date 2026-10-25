@@ -38,13 +38,13 @@ class TestSMAPE:
 class TestAdjustedR2:
     def test_perfect_fit(self):
         y = np.array([1.0, 2.0, 3.0, 4.0, 5.0])
-        # n=5, p=2 → adj_r2 = 1 (no penalty when SSres=0)
+        # n=5, p=2 -> adj_r2 = 1 (no penalty when SSres=0)
         assert adjusted_r_squared(y, y, n_features=2) == pytest.approx(1.0, abs=1e-9)
 
     def test_mean_predictor_is_zero(self):
         y = np.array([1.0, 2.0, 3.0, 4.0, 5.0])
         y_pred = np.full_like(y, y.mean())
-        # SSres = SStot → R² = 0 → adj_r2 negative due to penalty
+        # SSres = SStot -> R² = 0 -> adj_r2 negative due to penalty
         assert adjusted_r_squared(y, y_pred, n_features=1) <= 0.0
 
     def test_too_few_samples_raises(self):
@@ -98,7 +98,7 @@ class TestPredictionIntervals:
         y = np.array([1.0, 2.0, 3.0, 4.0, 5.0])
         lo = np.full_like(y, 0.0)
         hi = np.full_like(y, 2.0)
-        # MPIW = 2.0, IQR of y = 2.0 (q1=2, q3=4) → ratio = 1.0
+        # MPIW = 2.0, IQR of y = 2.0 (q1=2, q3=4) -> ratio = 1.0
         assert nmpiw_iqr(y, lo, hi) == pytest.approx(1.0, abs=1e-9)
 
     def test_winkler_inside_interval(self):

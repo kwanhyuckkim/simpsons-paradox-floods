@@ -1,4 +1,4 @@
-# 4-tuple BHM_Category grouping: Natural_Managed × HUC02 × Köppen × area_bin
+# 4-tuple BHM_Category grouping: Natural_Managed x HUC02 x Köppen x area_bin
 target: streamflow
 family: gaussian
 

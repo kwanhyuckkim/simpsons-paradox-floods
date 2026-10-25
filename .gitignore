@@ -49,10 +49,9 @@ outputs/
 multirun/
 
 # Documentation build
-docs/_build/
 site/
 
-# Project data and artifacts (NOT in git — see data/README.md for Zenodo links)
+# data and outputs (not in git)
 data/raw/
 data/processed/
 data/external/
@@ -69,17 +68,12 @@ results/cache/
 
 # Allow small example data
 !examples/data/*.parquet
-!docs/figures/*.png
-!docs/figures/*.svg
-!docs/figures/*.pdf
 
 # Environment files with secrets
 .env
 .env.local
 .envrc
 
-# uv lockfile (commit, but not pyproject.toml egg-info)
-# uv.lock  # actually commit this!
 
 # Editor and IDE backups
 *.bak

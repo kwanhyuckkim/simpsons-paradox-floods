@@ -30,7 +30,7 @@ dependencies:
   - ipykernel
 
   - pip:
-      # Bayesian — pip-only or latest versions
+      # Bayesian: pip-only or latest versions
       - bambi>=0.13
       - pymc>=5.10
       - arviz>=0.17

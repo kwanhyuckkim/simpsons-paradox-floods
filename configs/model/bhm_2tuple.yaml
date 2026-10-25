@@ -1,4 +1,4 @@
-# Simpler 2-tuple grouping: Natural_Managed × HUC02 only.
+# Simpler 2-tuple grouping: Natural_Managed x HUC02 only.
 # Use this when 4-tuple does not converge; sacrifices some climate
 # heterogeneity for stronger pooling.
 target: streamflow

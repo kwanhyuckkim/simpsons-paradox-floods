@@ -1,7 +1,7 @@
 """Global ISA (gISA) and Köppen-Geiger classification loaders.
 
-Pre-computed zonal statistics live on Zenodo. ``load_isa_timeseries`` returns
-one row per ``(GAGE_ID, year)`` with mean ISA fraction.
+The zonal statistics are computed ahead of time (to be posted on Zenodo).
+load_isa_timeseries returns one row per (GAGE_ID, year) with the mean ISA fraction.
 """
 
 from __future__ import annotations

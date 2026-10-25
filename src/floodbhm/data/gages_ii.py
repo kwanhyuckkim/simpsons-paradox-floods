@@ -1,9 +1,8 @@
-"""GAGES-II watershed boundary + basin-characteristic loaders.
+"""GAGES-II watershed boundary and basin-characteristic loaders.
 
-TODO: implement the boundary shapefile reader + the
-``basinchar_and_report_sept_2011/`` conterm CSV merge that selects the 18
-features used by the BHM. The cached parquet on Zenodo skips this step for
-standard reproduction.
+TODO: write the boundary shapefile reader and the merge with the
+basinchar_and_report_sept_2011/ conterm CSV that picks the 18 features the BHM
+uses. Until then, start from the cached parquet (to be posted on Zenodo).
 """
 
 from __future__ import annotations

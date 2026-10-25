@@ -36,7 +36,7 @@ class TestTimeOfConcentrationDispatch:
         assert t > 0.0
 
     def test_monotonic_in_area(self):
-        # Same slope, larger basin → longer T_c (roughly)
+        # Same slope, larger basin -> longer T_c (roughly)
         t_small = time_of_concentration(area_km2=10.0, slope=0.005)
         t_med = time_of_concentration(area_km2=500.0, slope=0.005)
         t_large = time_of_concentration(area_km2=3000.0, slope=0.005)

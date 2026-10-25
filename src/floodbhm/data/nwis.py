@@ -26,12 +26,12 @@ def load_nwis_daily(
 
     Returns:
         Long-format DataFrame with columns ``[GAGE_ID, date, streamflow]``.
-        ``streamflow`` is in cubic feet per second (cfs) — convert downstream
+        ``streamflow`` is in cubic feet per second (cfs). Convert downstream
         if needed.
 
     Note:
         Requires network access. Errors per-gauge are logged but do not halt
-        the loop — caller should check the returned ``GAGE_ID`` set.
+        the loop; the caller should check the returned ``GAGE_ID`` set.
     """
     from dataretrieval import nwis
 

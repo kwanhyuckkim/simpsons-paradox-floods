@@ -2,12 +2,12 @@
 
 We provide three GP variants for different scale regimes:
 
-- :class:`SimpleSpatialGP` — ``ExactGP`` with RBF kernel on (lat, lng). For
+- :class:`SimpleSpatialGP`: ``ExactGP`` with RBF kernel on (lat, lng). For
   small training sets (≤ 5000 gauges).
-- :class:`MultiTaskSpatialGP` — ``MultitaskKernel`` for jointly modeling
+- :class:`MultiTaskSpatialGP`: ``MultitaskKernel`` for jointly modeling
   several dynamic variables. For medium sets when variables share structure.
-- :class:`SparseBasinYearGP` — ``InducingPointKernel`` for large sets
-  (basin × year cross product, > 10000 rows).
+- :class:`SparseBasinYearGP`: ``InducingPointKernel`` for large sets
+  (basin x year cross product, > 10000 rows).
 
 All variants record the final loss + lengthscale in
 ``model.training_log`` so downstream diagnostics can flag non-converged fits.

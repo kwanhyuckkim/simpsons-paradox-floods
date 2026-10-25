@@ -1,14 +1,14 @@
-"""5-minute toy example: full pipeline on synthetic data.
+"""Small example on synthetic data, runs in a few minutes.
 
-Demonstrates:
-    1. peak extraction from synthetic daily series
-    2. BHM_Category construction
+It goes through:
+    1. peak extraction from a synthetic daily series
+    2. building BHM_Category
     3. plot_simpsons_paradox
 
 Run:
     python examples/quickstart.py
 
-Generates ``results/quickstart/simpsons_demo.png``.
+Writes results/quickstart/simpsons_demo.png.
 """
 
 from __future__ import annotations

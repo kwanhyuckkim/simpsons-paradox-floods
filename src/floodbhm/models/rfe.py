@@ -1,7 +1,7 @@
-r"""Stability-weighted Recursive Feature Elimination using QRF importances.
+r"""Stability-weighted recursive feature elimination with QRF importances.
 
-At each iteration we fit a Quantile Random Forest under ``GroupKFold(GAGE_ID)``,
-collect per-fold MDI importances, and drop the feature with the lowest
+Each iteration fits a quantile random forest under GroupKFold(GAGE_ID), collects
+the MDI importances from every fold, and drops the feature with the lowest
 composite score:
 
 .. math::
@@ -9,17 +9,16 @@ composite score:
     c_j = \\mu_j \\cdot \\left(1 - \\min(s_j, t_{stab}) / t_{stab}\\right),
     \\quad s_j = \\sigma_j / \\mu_j
 
-The stability term penalizes features whose importance varies across folds.
+The stability term penalizes features whose importance jumps around between folds.
 
-Differences vs the original ``rfe.py``:
+Implementation notes:
 
-- ``RandomForestQuantileRegressor.predict()`` is now called with explicit
-  ``quantiles=[0.5]`` rather than the default (whose semantics changed across
-  ``quantile-forest`` versions).
-- Resume logic uses a JSON manifest rather than appending to a plain text file,
-  reducing parsing errors.
-- The optimal-feature recovery step (``KeyError: 'var'`` in the original) is
-  fixed by using consistent column names throughout.
+- RandomForestQuantileRegressor.predict() gets quantiles=[0.5] explicitly, because
+  the default changed between quantile-forest versions.
+- Progress for resuming goes to a JSON manifest. A plain text log caused
+  parsing errors.
+- Column names stay the same throughout, which avoids the KeyError: 'var' in the
+  optimal-feature recovery step.
 """
 
 from __future__ import annotations
